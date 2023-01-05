@@ -1,5 +1,5 @@
 
-private _object = this;
+private _object = CURSOROBJECT;
 
 if (_object getVariable ['hasTGLoadouts', false]) exitWith {
 
@@ -9,6 +9,24 @@ if (_object getVariable ['hasTGLoadouts', false]) exitWith {
 };
 
 _object setVariable ['hasTGLoadouts', false, true];
+
+
+comment "
+	USE: 
+	
+	getUnitLoadout player;
+	
+	TO GET <loadout array>
+	
+	Add new loadout to top of TG_loadouts,
+	use the following format:
+	
+	[
+		'<loadout name>',
+		<loadout array>
+	],
+";
+
 
 TG_loadouts = [
 	[
@@ -75,7 +93,7 @@ clearItemCargoGlobal _object;
 
 private _color = "#058fff";"4285f4";
 
-private _priority = 1.5;
+private _priority = 500;"1.5";
 
 private _showWindow = false;
 
@@ -95,7 +113,7 @@ private _radius = 5;
 		private _object = _this;
 		systemChat typeOf _object;
 		_object addAction [
-			""<t color='%1'>%8</t>"",
+			""<t font='puristaBold' size='1.2' color='%1'>%8</t>"",
 			{
 				private _unit = _this select 1;
 				_unit setUnitLoadout %9;
@@ -106,3 +124,92 @@ private _radius = 5;
 	", _color, _priority, _showWindow, _hideOnUse, _shortcut, _condition, _radius, _loadout_name, _loadout_array];
 	private _result = _object call (compile _codeStr);
 } forEach TG_loadouts;
+
+TG_fnc_initLoadoutHUD = 
+{
+	params [['_object', objNull]];
+	if (isNull _object) exitWith {};
+	if (_object getVariable ['TG_has3DMarker_loadouts', false]) exitWith {};
+	_object setVariable ['TG_has3DMarker_loadouts', true, true];
+	[_object,
+	{
+		if (isNull _this) exitWith {};
+		if (isNil 'TG_LoadoutBoxes') then 
+		{
+			TG_LoadoutBoxes = [];
+		};
+		TG_LoadoutBoxes pushBackUnique _this;
+		if (not (isNil 'TG_EH_drawLoadoutBox3D')) then 
+		{
+			removeMissionEventHandler ['Draw3D', TG_EH_drawLoadoutBox3D];
+		};
+		TG_EH_drawLoadoutBox3D = addMissionEventHandler ['Draw3D', 
+		{
+			if (count TG_LoadoutBoxes == 0) exitWith {};
+			{
+				if (!isNull _x) then 
+				{
+					if ((_x distance (vehicle player)) <= 15) then {
+						private _position = getPos _x;						
+						private _offsetX = 0;
+						private _offsetY = -0.07;
+						private _drawSideArrows = false;
+						private _texture = '\A3\ui_f\data\logos\arsenal_1024_ca.paa';
+						_position set [2, (_position # 2) + 1.8];
+						private _width = 0.8;
+						private _height = 0.8;
+						private _angle = 0;
+						private _text = '';
+						private _textSize = 0.05;
+						private _font = 'RobotoCondensedBold';
+						private _textAlign = 'center';
+						private _shadow = 2;
+						drawIcon3D 
+						[
+							"a3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_sidebar_show_down.paa",
+							[1,1,1,1],
+							_position,
+							_width, 
+							_height, 
+							_angle,
+							'',
+							_shadow,
+							_textSize,
+							_font,
+							_textAlign,
+							_drawSideArrows,
+							_offsetX,
+							_offsetY
+						];
+						drawIcon3D 
+						[
+							'',
+							[0.01,0.56,1,1],
+							_position,
+							_width, 
+							_height, 
+							_angle,
+							'Loadouts',
+							_shadow,
+							_textSize,
+							_font,
+							_textAlign,
+							_drawSideArrows,
+							_offsetX,
+							_offsetY + 0.01
+						];
+					};
+				};
+			} forEach TG_LoadoutBoxes;
+		}];
+	}] remoteExec ['call', 0, 'TG_JIP_loadoutBoxIcons_3D'];
+	comment "
+		Execute the following to remove the 3D markers:
+		
+		TG_LoadoutBoxes = [];
+		publicVariable 'TG_LoadoutBoxes';
+		remoteExec ['', 'TG_JIP_loadoutBoxIcons_3D'];
+	";
+};
+
+[_object] call TG_fnc_initLoadoutHUD;
