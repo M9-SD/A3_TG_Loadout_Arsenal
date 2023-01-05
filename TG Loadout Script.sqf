@@ -1,5 +1,5 @@
 
-private _object = CURSOROBJECT;
+private _object = this;
 
 if (_object getVariable ['hasTGLoadouts', false]) exitWith {
 
