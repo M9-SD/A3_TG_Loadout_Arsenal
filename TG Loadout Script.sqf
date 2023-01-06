@@ -30,6 +30,10 @@ comment "
 
 TG_loadouts = [
 	[
+		"TG Marksman (DEA)",
+		[["srifle_DMR_05_tan_f","","","optic_SOS",["10Rnd_93x64_DMR_05_Mag",10],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","","optic_MRD",["11Rnd_45ACP_Mag",11],[],""],["U_C_Poloshirt_salmon",[["FirstAidKit",2],["SmokeShell",1,1]]],["V_CarrierRigKBT_01_Olive_F",[["MineDetector",1],["FirstAidKit",2],["SmokeShellBlue",1,1],["10Rnd_93x64_DMR_05_Mag",1,10]]],["B_Messenger_Coyote_F",[["muzzle_snds_H_snd_F",1],["Integrated_NVG_F",1],["acc_pointer_IR",1],["ToolKit",1],["FirstAidKit",1],["Chemlight_yellow",1,1],["Chemlight_red",1,1],["Chemlight_green",1,1],["Chemlight_blue",1,1],["MiniGrenade",1,1]]],"H_Booniehat_khk_hs","G_Aviator",["Binocular","","","",[],[],""],["ItemMap","","ItemRadio","ItemCompass","ItemWatch",""]]
+	],
+	[
 		"TG Sniper", 
 		[["srifle_LRR_F","","","optic_LRPS",["7Rnd_408_Mag",7],[],""],[],[],["U_B_FullGhillie_ard",[["optic_tws",1],["SmokeShell",3,1]]],["V_Rangemaster_belt",[["7Rnd_408_Mag",2,7]]],["B_Carryall_cbr",[["FirstAidKit",4],["7Rnd_408_Mag",12,7]]],"H_HelmetSpecB_snakeskin","G_Balaclava_TI_G_blk_F",["Laserdesignator","","","",["Laserbatteries",1],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch","NVGogglesB_blk_F"]]
 	],
